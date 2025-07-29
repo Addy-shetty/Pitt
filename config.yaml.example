@@ -1,0 +1,19 @@
+# Example configuration for PITT
+# Copy this file to config.yaml and update with your settings
+
+target_url: "http://localhost:8080/chat"
+api_key: "YOUR_API_KEY_HERE"
+request_method: "POST"
+request_body_template:
+  prompt: "{payload}"
+  # Example for a more complex body:
+  # messages:
+  #   - role: "user"
+  #     content: "{payload}"
+
+judge_llm:
+  enabled: false # Set to true to enable Judge LLM
+  api_key: "YOUR_JUDGE_LLM_API_KEY_HERE" # Your Judge LLM API key
+  model: "gpt-3.5-turbo" # e.g., "gpt-4", "claude-3-opus-20240229", "llama2"
+  url: "https://api.openai.com/v1/chat/completions" # Example for OpenAI
+  # For Ollama: "http://localhost:11434/api/chat"

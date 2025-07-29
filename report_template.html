@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PITT Report</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 40px; background-color: #f9fafb; color: #111827; }
+        h1, h2 { color: #111827; border-bottom: 1px solid #d1d5db; padding-bottom: 10px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); }
+        th, td { border: 1px solid #d1d5db; padding: 12px; text-align: left; }
+        th { background-color: #f3f4f6; font-weight: 600; }
+        .vulnerable { color: #dc2626; font-weight: bold; }
+        .not-vulnerable { color: #16a34a; }
+        .summary-card { background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); }
+        .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+        #summary-chart-container { max-width: 400px; margin: auto; }
+        pre { white-space: pre-wrap; word-wrap: break-word; background-color: #f3f4f6; padding: 10px; border-radius: 6px; }
+    </style>
+</head>
+<body>
+    <h1>PITT Security Audit Report</h1>
+    
+    <div class="summary-grid">
+        <div class="summary-card">
+            <h2>Test Summary</h2>
+            <p><strong>Date:</strong> {{ date }}</p>
+            <p><strong>Target:</strong> <code>{{ target_url }}</code></p>
+            <p><strong>Total Tests Run:</strong> {{ results|length }}</p>
+            <p><strong>Vulnerabilities Found:</strong> <span class="vulnerable">{{ vulnerable_count }}</span></p>
+        </div>
+        <div class="summary-card">
+            <h2>Results Overview</h2>
+            <div id="summary-chart-container">
+                <canvas id="summaryChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <h2>Detailed Test Results</h2>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>OWASP Category</th>
+            <th>Severity</th>
+            <th>Result</th>
+            <th>Payload</th>
+            <th>Response</th>
+        </tr>
+        {% for result in results %}
+        <tr>
+            <td>{{ result.name }}</td>
+            <td>{{ result.type }}</td>
+            <td>{{ result.severity }}</td>
+            <td class="{{ 'vulnerable' if result.vulnerable else 'not-vulnerable' }}">
+                {{ 'Vulnerable' if result.vulnerable else 'Not Vulnerable' }}
+            </td>
+            <td><pre>{{ result.payload }}</pre></td>
+            <td><pre>{{ result.responses | join('\n') }}</pre></td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <script>
+        const vulnerableCount = {{ vulnerable_count }};
+        const notVulnerableCount = {{ results|length - vulnerable_count }};
+
+        const ctx = document.getElementById('summaryChart').getContext('2d');
+        const summaryChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Vulnerable', 'Not Vulnerable'],
+                datasets: [{
+                    label: 'Test Results',
+                    data: [vulnerableCount, notVulnerableCount],
+                    backgroundColor: [
+                        'rgba(220, 38, 38, 0.8)', // red
+                        'rgba(22, 163, 74, 0.8)'  // green
+                    ],
+                    borderColor: [
+                        'rgba(220, 38, 38, 1)',
+                        'rgba(22, 163, 74, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Vulnerability Distribution'
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+pyyaml
+rich
+requests
+jinja2
+aiohttp
+flask
