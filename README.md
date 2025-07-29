@@ -57,6 +57,7 @@ PITT is a powerful, command-line tool designed to help developers and security p
   ```
 
 After the tests are complete, a `report.html` file will be generated in the root directory.
+And your can check the Example Report file here [report.html](https://github.com/Addy-shetty/Pitt/blob/ec6ab6f668466f15217be8ecb95ea45ddcb4f824/report.html).
 
 ## Contributing
 
