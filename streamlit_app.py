@@ -4,6 +4,7 @@ import sys
 import pandas as pd
 import yaml
 import asyncio
+import ast
 
 # Add the parent directory to the path to allow importing pitt.py
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -43,7 +44,7 @@ def main():
     request_body_template_input = st.sidebar.text_area("Request Body Template (JSON)", value=request_body_template_str, key='request_body_template_input')
     # Convert string input back to dict
     try:
-        config['request_body_template'] = eval(request_body_template_input)
+        config['request_body_template'] = ast.literal_eval(request_body_template_input)
     except Exception as e:
         st.sidebar.error(f"Invalid Request Body Template: {e}")
         return # Stop execution if invalid

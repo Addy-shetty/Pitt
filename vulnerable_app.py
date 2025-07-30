@@ -34,7 +34,7 @@ def chat():
     }
 
     try:
-        response = requests.post(OLLAMA_URL, json=ollama_payload)
+        response = requests.post(OLLAMA_URL, json=ollama_payload, timeout=10)
         response.raise_for_status() # Raise an exception for bad status codes
 
         # Extract the content from the Ollama response
@@ -50,5 +50,5 @@ def chat():
         return jsonify({"error": "Invalid response structure from Ollama"}), 500
 
 if __name__ == '__main__':
-    # Runs on http://localhost:8080
-    app.run(host='0.0.0.0', port=8080)
+    # Runs on http://localhost:8080 (localhost only for security)
+    app.run(host='127.0.0.1', port=8080)
