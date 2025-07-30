@@ -1,4 +1,7 @@
-# PITT: The OWASP LLM Top 10 Testing Tool
+# PITT: The OWASP LLM Top 10 Testing Tool 
+
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/b3046a10de1d4fd4825089688c7a0b53)](https://app.codacy.com/gh/Addy-shetty/Pitt/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+
 
 PITT is a powerful, command-line tool designed to help developers and security professionals assess the security of Large Language Model (LLM) applications. It automates the process of testing for vulnerabilities specific to LLMs, based on the [OWASP Top 10 for Large Language Model Applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/).
 
